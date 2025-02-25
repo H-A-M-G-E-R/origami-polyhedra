@@ -1,4 +1,4 @@
-# This square trapezohedron has eight kites with angles of 45, 112.5 and 90 degrees.
+# This hexagonal trapezohedron has eight kites with angles of 30, 105 and 120 degrees.
 # Unlike John Montroll's design from https://johnmontroll.com/books/3d-origami-antidiamonds/, this one is mathematically correct.
 
 import math
@@ -21,47 +21,44 @@ def kite():
 def gotoOnSquare(x, y):
     turtle.goto((-1+2*x)*squareRadius,(-1+2*y)*squareRadius)
 
-topAngle = math.pi/4 # in radians
-bottomAngle = math.pi/2
-sideAngle = math.pi-topAngle/2-bottomAngle/2
+topAngle = 30/180*math.pi # in radians
+sideAngle = 105/180*math.pi
+bottomAngle = 120/180*math.pi
 
 shortLength = 1
-longLength = math.sqrt(2+math.sqrt(2))
+longLength = math.cos(math.pi/2-bottomAngle/2)/math.cos(math.pi/2-topAngle/2)
 
 angle = -math.pi/2+topAngle+sideAngle
-x = shortLength*1.5*math.cos(angle)
+x = shortLength*3.5*math.cos(angle)
 angle -= math.pi-bottomAngle
-x += shortLength*2*math.cos(angle)
+x += shortLength*3*math.cos(angle)
+
+ratio = 1/x
 
 angle = -math.pi/2+topAngle+sideAngle
-y = -shortLength/2*math.sin(angle)
-angle -= sideAngle
-y += 2*longLength*math.sin(angle)
+x = shortLength/2*math.cos(angle)
+y = shortLength/2*math.sin(angle)
+angle -= math.pi-bottomAngle
+x += shortLength*math.cos(angle)
+y += shortLength*math.sin(angle)
 
-ratio = 1/((x-y)/2)
-
-angle = -math.pi/2+topAngle+sideAngle
-x = -shortLength/2*math.cos(angle)
-y = -shortLength/2*math.sin(angle)
-
-landmarks = [((1+x*ratio)/2+(1+y*ratio)/2, 0), (1-math.sqrt(2)/2, 0)]
+landmarks = [((1+x*ratio)/2, 0)]
 extraLandmarks = [((1+x*ratio)/2, (1+y*ratio)/2)]
-
 print(landmarks)
 
 squareRadius = 400
 size = squareRadius*ratio
 
-topAngle = 45 # in degrees
-bottomAngle = 90
-sideAngle = 112.5
+topAngle = 30 # in degrees
+sideAngle = 105
+bottomAngle = 120
 
 # Setup turtle
 turtle.delay(0)
 turtle.speed(0)
 turtle.pensize(3)
 turtle.color("#000000", "#BFBFBF")
-turtle.hideturtle()
+#turtle.hideturtle()
 turtle.penup()
 
 # Draw net
@@ -69,19 +66,22 @@ for i in range(2):
     turtle.goto(0, 0)
     turtle.setheading(-90+topAngle+sideAngle+i*180)
     turtle.forward(shortLength/2*size)
-    turtle.setheading(90+i*180)
 
-    kite()
+    for j in range(2):
+        turtle.setheading(90+i*180)
 
-    turtle.right(sideAngle)
-    turtle.forward(shortLength*size)
-    turtle.right(180-sideAngle)
+        kite()
 
-    kite()
+        turtle.right(sideAngle)
+        turtle.forward(shortLength*size)
+        turtle.right(180-sideAngle)
 
-    turtle.left(topAngle+sideAngle)
+        kite()
 
-    turtle.forward(shortLength*size)
+        turtle.left(topAngle+sideAngle)
+
+        turtle.forward(shortLength*size)
+
     turtle.right(180-bottomAngle)
     turtle.forward(shortLength*size)
     turtle.right(180-sideAngle)
@@ -122,24 +122,14 @@ for (x, y) in landmarks:
 # Reference folds
 turtle.pensize(2)
 
-gotoOnSquare(landmarks[0][0], 0)
+gotoOnSquare(0, 0)
+turtle.pendown()
+gotoOnSquare(1, 1)
+turtle.penup()
+
+gotoOnSquare(extraLandmarks[0][0], 0)
 turtle.pendown()
 gotoOnSquare(extraLandmarks[0][0], extraLandmarks[0][1])
-turtle.penup()
-
-gotoOnSquare((1+landmarks[0][0])/2, 0)
-turtle.pendown()
-gotoOnSquare((1+landmarks[0][0])/2, 1)
-turtle.penup()
-
-gotoOnSquare((1-landmarks[0][0])/2, 0)
-turtle.pendown()
-gotoOnSquare((1-landmarks[0][0])/2, 1)
-turtle.penup()
-
-gotoOnSquare(1-math.sqrt(2)/2, 0)
-turtle.pendown()
-gotoOnSquare(math.sqrt(2)/2, 1)
 turtle.penup()
 
 turtle.exitonclick()
