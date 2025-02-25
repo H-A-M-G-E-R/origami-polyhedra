@@ -37,13 +37,10 @@ ratio = 1/x
 
 angle = -math.pi/2+topAngle+sideAngle
 x = shortLength/2*math.cos(angle)
-y = shortLength/2*math.sin(angle)
 angle -= math.pi-bottomAngle
 x += shortLength*math.cos(angle)
-y += shortLength*math.sin(angle)
 
 landmarks = [((1+x*ratio)/2, 0)]
-extraLandmarks = [((1+x*ratio)/2, (1+y*ratio)/2)]
 print(landmarks)
 
 squareRadius = 400
@@ -58,7 +55,7 @@ turtle.delay(0)
 turtle.speed(0)
 turtle.pensize(3)
 turtle.color("#000000", "#BFBFBF")
-#turtle.hideturtle()
+turtle.hideturtle()
 turtle.penup()
 
 # Draw net
@@ -127,9 +124,14 @@ turtle.pendown()
 gotoOnSquare(1, 1)
 turtle.penup()
 
-gotoOnSquare(extraLandmarks[0][0], 0)
+gotoOnSquare(landmarks[0][0], 0)
 turtle.pendown()
-gotoOnSquare(extraLandmarks[0][0], extraLandmarks[0][1])
+gotoOnSquare(landmarks[0][0], 0.5)
+turtle.penup()
+
+gotoOnSquare(landmarks[0][0]/2, 0)
+turtle.pendown()
+gotoOnSquare(landmarks[0][0]/2, 0.4)
 turtle.penup()
 
 turtle.exitonclick()
