@@ -1,4 +1,5 @@
 # https://en.wikipedia.org/wiki/Metabidiminished_icosahedron
+# Use only one of the two landmarks.
 
 import math
 import turtle
@@ -82,7 +83,7 @@ angle += 72*math.pi/180
 x1 += (1+math.sqrt(5))/2*ratio*math.cos(angle)
 y1 += (1+math.sqrt(5))/2*ratio*math.sin(angle)
 
-landmarks = [(x1+y1*math.sqrt(3), 0)]
+landmarks = [(x1+y1*math.sqrt(3), 0), (0, x1/math.sqrt(3)+y1)]
 print(landmarks)
 
 # Draw landmarks
@@ -105,7 +106,7 @@ turtle.pensize(2)
 
 gotoOnSquare(landmarks[0][0], 0)
 turtle.pendown()
-gotoOnSquare(0, x1/math.sqrt(3)+y1)
+gotoOnSquare(0, landmarks[1][1])
 turtle.penup()
 
 turtle.exitonclick()
